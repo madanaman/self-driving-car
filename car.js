@@ -11,12 +11,13 @@ class Car{
         this.friction=0.05;
         this.angle=0;
 
+        this.sensor=new Sensor(this);
         this.controls=new Controls();
     }
 
-    update(){
+    update(roadBorders){
         this.#move();
-        
+        this.sensor.update(roadBorders);
     }
 
     #move(){
@@ -26,12 +27,14 @@ class Car{
         if(this.controls.reverse){
             this.speed-=this.acceleration;
         }
+
         if(this.speed>this.maxSpeed){
             this.speed=this.maxSpeed;
         }
         if(this.speed<-this.maxSpeed/2){
-            this.speed=-this.maxSpeed/2
+            this.speed=-this.maxSpeed/2;
         }
+
         if(this.speed>0){
             this.speed-=this.friction;
         }
@@ -41,29 +44,24 @@ class Car{
         if(Math.abs(this.speed)<this.friction){
             this.speed=0;
         }
-        if(this.speed !=0){
-            const flip = this.speed>0?1:-1;
+
+        if(this.speed!=0){
+            const flip=this.speed>0?1:-1;
             if(this.controls.left){
-                // console.log("left pressed")
                 this.angle+=0.03*flip;
             }
             if(this.controls.right){
-                // console.log("right pressed")
                 this.angle-=0.03*flip;
             }
-
         }
-        
+
         this.x-=Math.sin(this.angle)*this.speed;
         this.y-=Math.cos(this.angle)*this.speed;
     }
 
-    
-
     draw(ctx){
         ctx.save();
         ctx.translate(this.x,this.y);
-        // console.log(this.angle)
         ctx.rotate(-this.angle);
 
         ctx.beginPath();
@@ -76,5 +74,7 @@ class Car{
         ctx.fill();
 
         ctx.restore();
+
+        this.sensor.draw(ctx);
     }
 }
