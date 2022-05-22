@@ -4,7 +4,7 @@ class Controls{
         this.left=false;
         this.right=false;
         this.reverse=false;
-        // console.log("inside controls custructor");
+
         switch(type){
             case "KEYS":
                 this.#addKeyboardListeners();
@@ -13,13 +13,10 @@ class Controls{
                 this.forward=true;
                 break;
         }
-        
     }
 
     #addKeyboardListeners(){
-        // console.log("inside listener");
         document.onkeydown=(event)=>{
-            // console.log("key down");
             switch(event.key){
                 case "ArrowLeft":
                     this.left=true;
@@ -34,10 +31,8 @@ class Controls{
                     this.reverse=true;
                     break;
             }
-            // console.table(this);
         }
         document.onkeyup=(event)=>{
-            // console.log("Key up");
             switch(event.key){
                 case "ArrowLeft":
                     this.left=false;
@@ -52,7 +47,6 @@ class Controls{
                     this.reverse=false;
                     break;
             }
-            // console.table(this);
         }
     }
 }
